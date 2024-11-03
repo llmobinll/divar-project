@@ -26,9 +26,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/checkForm/CheckOtp.jsx",
-    "components/Auth.tsx",
-    "components/checkForm/SendOtp.jsx",
+    "src/components/checkForm/CheckOtp.jsx",
+    "src/components/Auth.tsx",
+    "src/components/checkForm/SendOtp.jsx",
     "src/app/layout.jsx",
     "src/app/page.jsx"
   ],
