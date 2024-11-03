@@ -1,7 +1,10 @@
+import { SideBar } from "../components/homePage/SideBar";
+import { Main } from "../components/homePage/Main";
 export default function Home() {
   return (
-    <div>
-      <h1>پروژه دیوار</h1>
+    <div className="flex justify-between">
+      <SideBar />
+      <Main />
     </div>
   );
 }
