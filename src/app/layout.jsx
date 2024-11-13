@@ -1,6 +1,7 @@
 import { Header } from "@/layout/Header";
-import "./globals.css";
 import { ReduxProvider } from "@/layout/ReduxProvider";
+import ModalProvider from "@/components/Ui/modal";
+import "./globals.css";
 
 export const metadata = {
   title: "Divar",
@@ -11,8 +12,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fa" dir="rtl">
       <body>
-        <Header />
-        <ReduxProvider>{children}</ReduxProvider>
+        <ModalProvider>
+          <ReduxProvider>
+            <Header />
+
+            {children}
+          </ReduxProvider>
+        </ModalProvider>
       </body>
     </html>
   );

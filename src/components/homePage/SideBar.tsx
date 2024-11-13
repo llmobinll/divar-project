@@ -10,7 +10,6 @@ import Image from "next/image";
 export const SideBar = () => {
   const { data, isLoading, isError } = useGetCategoryQuery();
 
-  console.log(data);
   return (
     <div>
       {isLoading && <h1>در حال دریافت اطلاعات...</h1>}

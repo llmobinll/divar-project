@@ -26,11 +26,14 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/components/checkForm/CheckOtp.jsx",
+    "src/components/template/checkForm/CheckOtpForm.tsx",
     "src/components/Auth.tsx",
-    "src/components/checkForm/SendOtp.jsx",
+    "src/components/template/checkForm/SendOtpForm.tsx",
     "src/app/layout.jsx",
-    "src/app/page.jsx"
+    "src/app/page.jsx",
+    "src/components/Ui/modal.jsx",
+    "src/helper/index.js",
+    "src/utils/cookie.js"
   ],
   "exclude": ["node_modules"]
 }
