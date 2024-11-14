@@ -1,5 +1,5 @@
 import { divarApi } from "@/services/divarApi";
-import { CategoryResponse } from "@/types";
+import { CategoryResponse } from "@/types/types";
 
 const categoryApi = divarApi.injectEndpoints({
   endpoints: (build) => ({

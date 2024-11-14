@@ -4,7 +4,7 @@ import {
   SendOtpResponse,
   SendPhoneNumberResponse,
   UserProfile,
-} from "@/types";
+} from "@/types/types";
 
 const otpApi = divarApi.injectEndpoints({
   endpoints: (builder) => ({
