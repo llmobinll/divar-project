@@ -4,23 +4,21 @@ import { jwtDecode } from "jwt-decode";
 
 export const setCookie = ({ accessToken, refreshToken }) => {
   const accessDecoded = jwtDecode(accessToken);
-  const accessExpireInSecond =
-    accessDecoded.exp - Math.floor(Date.now() / 1000);
-  const accessExpireInDay = accessExpireInSecond / (60 * 60 * 24);
+  const accessExpire =
+    (accessDecoded.exp * 1000 - new Date().getTime()) / (1000 * 60 * 60 * 24);
 
   const refreshDecoded = jwtDecode(refreshToken);
-  const refreshExpireInSecond =
-    refreshDecoded.exp - Math.floor(Date.now() / 1000);
-  const refreshExpireInDay = refreshExpireInSecond / (60 * 60 * 24);
+  const refreshExpire =
+    (refreshDecoded.exp * 1000 - new Date().getTime()) / (1000 * 60 * 60 * 24);
 
   Cookies.set("accessToken", accessToken, {
-    expires: accessExpireInDay,
+    expires: accessExpire,
     secure: true,
     sameSite: "Strict",
   });
 
   Cookies.set("refreshToken", refreshToken, {
-    expires: refreshExpireInDay,
+    expires: refreshExpire,
     secure: true,
     sameSite: "Strict",
   });

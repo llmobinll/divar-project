@@ -11,6 +11,7 @@ export const CheckOtpForm = () => {
   const [checkOtpForLogin, { isLoading }] = useCheckOtpForLoginMutation();
 
   const submitHandler = async (event: any) => {
+    console.log({ isLoading });
     event.preventDefault();
     const response = await checkOtpForLogin({
       mobile,
@@ -20,8 +21,11 @@ export const CheckOtpForm = () => {
     if (response) {
       setCookie(response.data);
       setStep();
+      window.location.reload();
     }
   };
+
+  console.log({ isLoading });
 
   return (
     <form onSubmit={submitHandler}>

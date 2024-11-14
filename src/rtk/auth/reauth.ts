@@ -36,7 +36,10 @@ export const baseQueryWithReauth = async (
       console.log(refreshResult);
 
       if (refreshResult.data) {
-        const { accessToken, refreshToken } = refreshResult.data;
+        const { accessToken, refreshToken } = refreshResult.data as {
+          accessToken: string;
+          refreshToken: string;
+        };
         setCookie({ accessToken, refreshToken });
         result = await baseQuery(args, store, extraOptions);
         console.log(result);

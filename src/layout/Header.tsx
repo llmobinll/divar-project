@@ -7,14 +7,12 @@ import { LoginModal } from "@/components/Ui/modal";
 import { getCookie } from "@/utils/cookie";
 import { useRouter } from "next/navigation";
 import { useGetUserProfileQuery } from "@/rtk/auth";
-import { BarLoader, MoonLoader } from "react-spinners";
+import { BarLoader } from "react-spinners";
 
 export const Header = () => {
   const { push } = useRouter();
 
-  const { data, isLoading } = useGetUserProfileQuery(undefined, {
-    skip: false,
-  });
+  const { data, isLoading } = useGetUserProfileQuery();
   console.log({ data, isLoading });
 
   const { setStep } = useContext(LoginModal);
@@ -24,10 +22,10 @@ export const Header = () => {
 
     if (data) {
       if (accessToken && data?.role === "USER") {
-        console.log(data.role);
-        push("/userProfile");
+        push("/dashboard");
       } else if (accessToken && data?.role === "ADMIN") {
         push("/admin");
+        console.log(data.role);
       }
     }
 
