@@ -20,8 +20,9 @@ a {
   color: inherit;
 }
 
-button,
 input,
 select {
   font-family: inherit;
+  border: 2px solid rgb(120, 110, 110);
+  border-radius: 5px;
 }

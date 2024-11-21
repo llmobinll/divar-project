@@ -1,35 +1,45 @@
+/* eslint-disable no-dupe-else-if */
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useState } from "react";
-import { LoginModal } from "@/components/Ui/modal";
-import { getCookie } from "@/utils/cookie";
 import { useRouter } from "next/navigation";
-import { useGetUserProfileQuery } from "@/rtk/auth";
+
+import React, { useState } from "react";
 import { BarLoader } from "react-spinners";
+
+import { AuthenticationModal } from "@/components/template/checkForm";
+
+import { getCookie } from "@/utils/cookie";
+
+import { useGetUserProfileQuery } from "@/services/auth";
 
 export const Header = () => {
   const { push } = useRouter();
-
   const { data, isLoading } = useGetUserProfileQuery();
-  console.log({ data, isLoading });
+  const [showModal, setShowModal] = useState(false);
 
-  const { setStep } = useContext(LoginModal);
-  const buttonHandler = async () => {
-    const accessToken = await getCookie("accessToken");
-    const refreshToken = await getCookie("refreshToken");
+  const accessToken = getCookie("accessToken");
+  const refreshToken = getCookie("refreshToken");
 
+  const buttonHandler = () => {
     if (data) {
-      if (accessToken && data?.role === "USER") {
+      if (accessToken) {
         push("/dashboard");
-      } else if (accessToken && data?.role === "ADMIN") {
-        push("/admin");
-        console.log(data.role);
+      }
+    }
+    if (!refreshToken) {
+      setShowModal(true);
+    }
+  };
+  const AdButtonHandler = () => {
+    if (data) {
+      if (accessToken) {
+        push("/postPage");
       }
     }
 
-    if (!refreshToken) setStep(1);
+    if (!refreshToken) setShowModal(true);
   };
 
   return (
@@ -37,7 +47,7 @@ export const Header = () => {
       <div className="flex items-center justify-between gap-6">
         <Link href="/">
           <Image
-            src="/assets/logo/divar.svg"
+            src="/images/divar.svg"
             width={45}
             height={40}
             alt="divar"
@@ -46,7 +56,7 @@ export const Header = () => {
         </Link>
         <span className="flex text-gray-600">
           <Image
-            src="/assets/logo/location.svg"
+            src="/images/location.svg"
             width={20}
             height={20}
             alt="location"
@@ -59,7 +69,7 @@ export const Header = () => {
         <button onClick={buttonHandler}>
           <span className="flex items-center gap-2">
             <Image
-              src="/assets/logo/profile.svg"
+              src="/images/profile.svg"
               width={20}
               height={20}
               alt="profile"
@@ -68,12 +78,17 @@ export const Header = () => {
           </span>
         </button>
         <button
-          onClick={buttonHandler}
+          onClick={AdButtonHandler}
           className="bg-[#a62626] text-white h-10 w-20 leading-10 text-center rounded-md"
         >
           <p>ثبت اگهی</p>
         </button>
       </div>
+      {showModal && (
+        <div className="fixed top-0 left-0 w-full h-full backdrop-blur-sm flex justify-center items-center zIndex:10 ">
+          <AuthenticationModal onClose={() => setShowModal(false)} />
+        </div>
+      )}
     </header>
   );
 };

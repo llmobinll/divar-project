@@ -2,14 +2,20 @@ import Cookies from "js-cookie";
 
 import { jwtDecode } from "jwt-decode";
 
-export const setCookie = ({ accessToken, refreshToken }) => {
+export const setCookie = ({
+  accessToken,
+  refreshToken,
+}: {
+  accessToken: string;
+  refreshToken: string;
+}) => {
   const accessDecoded = jwtDecode(accessToken);
   const accessExpire =
-    (accessDecoded.exp * 1000 - new Date().getTime()) / (1000 * 60 * 60 * 24);
+    (accessDecoded.exp! * 1000 - new Date().getTime()) / (1000 * 60 * 60 * 24);
 
   const refreshDecoded = jwtDecode(refreshToken);
   const refreshExpire =
-    (refreshDecoded.exp * 1000 - new Date().getTime()) / (1000 * 60 * 60 * 24);
+    (refreshDecoded.exp! * 1000 - new Date().getTime()) / (1000 * 60 * 60 * 24);
 
   Cookies.set("accessToken", accessToken, {
     expires: accessExpire,
@@ -24,7 +30,7 @@ export const setCookie = ({ accessToken, refreshToken }) => {
   });
 };
 
-export const getCookie = (cookieName) => {
+export const getCookie = (cookieName: string) => {
   const token = Cookies.get(cookieName);
   return token;
 };

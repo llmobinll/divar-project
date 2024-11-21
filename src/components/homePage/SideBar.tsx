@@ -1,14 +1,16 @@
 "use client";
 
 import Link from "next/link";
-
-import { useGetCategoryQuery } from "@/rtk/category";
-
-import { BiCategory } from "react-icons/bi";
 import Image from "next/image";
 
+import React from "react";
+
+import { BiCategory } from "react-icons/bi";
+
+import { useGetCategoryQuery } from "@/services/category";
+
 export const SideBar = () => {
-  const { data, isLoading, isError } = useGetCategoryQuery();
+  const { data, isLoading } = useGetCategoryQuery();
 
   return (
     <div>
@@ -23,7 +25,7 @@ export const SideBar = () => {
             <ul key={i._id} className="flex justify-between mb-4">
               <span>
                 <Image
-                  src={`/assets/logo/${i.icon}.svg`}
+                  src={`/images/${i.icon}.svg`}
                   width={20}
                   height={20}
                   alt={i.icon}

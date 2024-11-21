@@ -29,11 +29,11 @@
     "src/components/template/checkForm/CheckOtpForm.tsx",
     "src/components/Auth.tsx",
     "src/components/template/checkForm/SendOtpForm.tsx",
-    "src/app/layout.jsx",
-    "src/app/page.jsx",
-    "src/components/Ui/modal.jsx",
-    "src/helper/index.js",
-    "src/utils/cookie.js"
+    "src/app/layout.tsx",
+    "src/app/page.tsx",
+    "src/components/template/checkForm/index.tsx",
+    "src/helper/index.ts",
+    "src/utils/cookie.ts"
   ],
   "exclude": ["node_modules"]
 }

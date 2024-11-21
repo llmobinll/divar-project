@@ -1,10 +1,6 @@
 import { divarApi } from "@/services/divarApi";
-import {
-  SendOtpRequest,
-  SendOtpResponse,
-  SendPhoneNumberResponse,
-  UserProfile,
-} from "@/types/types";
+
+import { SendOtpRequest, SendPhoneNumberResponse, UserProfile } from "./types";
 
 const otpApi = divarApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -15,11 +11,11 @@ const otpApi = divarApi.injectEndpoints({
         body: { mobile },
       }),
     }),
-    checkOtpForLogin: builder.mutation<SendOtpResponse, SendOtpRequest>({
-      query: (data) => ({
+    checkOtpForLogin: builder.mutation<void, SendOtpRequest>({
+      query: (body) => ({
         url: "auth/check-otp",
         method: "POST",
-        body: data,
+        body,
       }),
     }),
     getUserProfile: builder.query<UserProfile, void>({

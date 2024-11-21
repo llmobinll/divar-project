@@ -1,5 +1,4 @@
-import { NextResponse } from "next/server";
-import { NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
@@ -19,7 +18,7 @@ export async function middleware(request: NextRequest) {
     const userData = await response.json();
     const userRole = userData.role;
 
-    if (userRole === "USER" && url.pathname.startsWith("/admin")) {
+    if (userRole === "USER" && url.pathname.startsWith("/dashboard/admin")) {
       url.pathname = "dashboard";
       return NextResponse.redirect(url);
     }
