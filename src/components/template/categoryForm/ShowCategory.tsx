@@ -13,8 +13,9 @@ import {
 } from "@/services/category";
 
 export const ShowCategory = () => {
-  const { data } = useGetCategoryQuery();
   const [deleteCategory] = useDeleteCategoryMutation();
+  const { data } = useGetCategoryQuery();
+
   const deleteHandler = async (id: string) => {
     try {
       await deleteCategory(id);
@@ -41,24 +42,24 @@ export const ShowCategory = () => {
   };
   return (
     <div className="w-3/5">
-      {data?.map((i) => (
+      {data?.map(({ _id, icon, name, slug }) => (
         <div
-          key={i._id}
+          key={_id}
           className="flex justify-between border-solid border-gray-400 border-2 mb-4 p-3 rounded-md"
         >
           <div className="flex gap-3">
             <Image
               width={30}
               height={30}
-              src={`/images/${i.icon}.svg`}
-              alt={i.icon}
+              src={`/images/${icon}.svg`}
+              alt={icon}
             />
-            <h5>{i.name}</h5>
+            <h5>{name}</h5>
           </div>
           <div className="flex items-center gap-2 justify-between">
-            <p className="text-[#a62626] font-bold  ">slug: {i.slug}</p>
+            <p className="text-[#a62626] font-bold  ">slug: {slug}</p>
             <button
-              onClick={() => deleteHandler(i._id)}
+              onClick={() => deleteHandler(_id)}
               className="cursor-pointer"
             >
               <MdDelete />

@@ -5,7 +5,7 @@ import { ApiResponse } from "./types";
 const postApi = divarApi.injectEndpoints({
   endpoints: (build) => ({
     addPost: build.mutation<void, FormData>({
-      query: (formData) => ({
+      query: (formData: FormData) => ({
         url: "post/create",
         method: "POST",
         body: formData,

@@ -1,43 +1,37 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 import { toast } from "react-toastify";
 
 import { useGetCategoryQuery } from "@/services/category";
 import { useAddPostMutation } from "@/services/post";
 
+import { PostFormData } from "./types";
+
 import "react-toastify/dist/ReactToastify.css";
 
 export const AddPost = () => {
-  const [form, setForm] = useState({
-    title: "",
-    content: "",
-    category: "",
-    city: "",
-    price: null,
-    images: null,
-  });
+  const { register, handleSubmit, reset } = useForm<PostFormData>();
   const { data } = useGetCategoryQuery();
   const [addPost] = useAddPostMutation();
 
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const name = event.target.name;
-    if (name !== "images") {
-      setForm({ ...form, [name]: event.target.value });
-    } else {
-      setForm({ ...form, [name]: event.target.files?.[0] });
-    }
-  };
-  const addHandler = async (event: React.MouseEvent) => {
-    event.preventDefault();
-    const formData: FormData = new FormData();
-    for (const i in form) {
-      formData.append(i, form[i]);
-    }
+  const onSubmit: SubmitHandler<PostFormData> = async (data) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (key !== "images") {
+        formData.append(key, value.toString());
+      }
+    });
+
+    Array.from(data.images).forEach((image) => {
+      formData.append("images", image);
+    });
     try {
       const response = await addPost(formData);
       if (response.data) {
+        reset();
         toast("اگهی با موفقیت اضافه شد", {
           style: {
             backgroundColor: "#a62626",
@@ -61,7 +55,7 @@ export const AddPost = () => {
     }
   };
   return (
-    <form onChange={changeHandler}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <h3 className="mb-8 border-b-4 border-solid border-[#a62626] w-fit pb-1.5">
         افزودن اگهی
       </h3>
@@ -72,15 +66,15 @@ export const AddPost = () => {
         className="block w-[300px] p-1.5 border-solid border-gray-400 border-2 rounded-md mb-8"
         type="text"
         id="title"
-        name="title"
+        {...register("title", { required: "title is required" })}
       />
       <label htmlFor="title" className="block mb-2">
         توضیحات
       </label>
       <textarea
         className="block w-[300px] h-24 p-1.5 border-solid border-gray-400 border-2 rounded-md mb-8"
-        name="content"
         id="content"
+        {...register("content", { required: "content is required" })}
       />
       <label htmlFor="price" className="block mb-2">
         مبلغ
@@ -89,7 +83,7 @@ export const AddPost = () => {
         className="block w-[300px] p-1.5 border-solid border-gray-400 border-2 rounded-md mb-8"
         type="number"
         id="price"
-        name="price"
+        {...register("price", { required: "price is required" })}
       />
       <label htmlFor="city" className="block mb-2">
         شهر
@@ -98,7 +92,7 @@ export const AddPost = () => {
         className="block w-[300px] p-1.5 border-solid border-gray-400 border-2 rounded-md mb-8"
         type="text"
         id="city"
-        name="city"
+        {...register("city", { required: "city is required" })}
       />
       <label htmlFor="category" className="block mb-2">
         دسته بندی
@@ -108,9 +102,9 @@ export const AddPost = () => {
         name="category"
         id="category"
       >
-        {data?.map((i) => (
-          <option className="bg-orange-700" key={i._id} value={i._id}>
-            {i.name}
+        {data?.map(({ name, _id }) => (
+          <option className="bg-orange-700" key={_id} value={_id}>
+            {name}
           </option>
         ))}
       </select>
@@ -119,14 +113,16 @@ export const AddPost = () => {
       </label>
       <input
         type="file"
-        name="images"
         id="images"
+        multiple
+        {...register("images", {
+          required: "Please upload at least one image",
+        })}
         className="block w-[300px] p-1.5 border-solid border-gray-400 border-2 rounded-md mb-8"
       />
       <button
         className="bg-[#a62626] text-white border-none py-2.5 px-6 rounded-md cursor-pointer"
         type="submit"
-        onClick={addHandler}
       >
         ایجاد
       </button>

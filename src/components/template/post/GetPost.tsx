@@ -8,8 +8,6 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { ColorRing } from "react-loader-spinner";
 import { toast } from "react-toastify";
 
-import { BASE_URL } from "@/config";
-
 import { useDeletePostMutation, useGetPostQuery } from "@/services/post";
 
 export const GetPost = () => {
@@ -56,7 +54,7 @@ export const GetPost = () => {
           >
             <Image
               className="rounded-sm ml-8"
-              src={`${BASE_URL}${p.images}`}
+              src={`${process.env.NEXT_PUBLIC_BASE_URL}${p.images}`}
               width={100}
               height={70}
               alt={p.options.title}

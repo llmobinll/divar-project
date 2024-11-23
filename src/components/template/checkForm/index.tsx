@@ -26,7 +26,7 @@ export const AuthenticationModal = ({ onClose }: { onClose: () => void }) => {
   const [mobile, setMobile] = useState<string>("");
   const [code, setCode] = useState<string>("");
 
-  const sendMobileHandler = async (event: MouseEvent) => {
+  const sendMobileHandler = async (event: React.MouseEvent) => {
     event.preventDefault();
     if (mobileValidation(mobile)) {
       try {
@@ -56,7 +56,7 @@ export const AuthenticationModal = ({ onClose }: { onClose: () => void }) => {
       });
   };
 
-  const checkOtpHandler = async (event: MouseEvent) => {
+  const checkOtpHandler = async (event: React.MouseEvent) => {
     event.preventDefault();
     const response = await checkOtpForLogin({
       mobile,

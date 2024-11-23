@@ -1,8 +1,9 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import React from "react";
 
 import { toast } from "react-toastify";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 import { useAddCategoryMutation } from "@/services/category";
 
@@ -11,25 +12,14 @@ import { AddCategory } from "./types";
 import "react-toastify/dist/ReactToastify.css";
 
 export const CategoryForm = () => {
-  const [form, setForm] = useState<AddCategory>({
-    name: "",
-    slug: "",
-    icon: "",
-  });
+  const { register, handleSubmit, reset } = useForm<AddCategory>();
 
   const [addCategory, { isError, isLoading }] = useAddCategoryMutation();
 
-  const formHandler = (event: FormEvent<HTMLFormElement>) => {
-    setForm({
-      ...form,
-      [event.currentTarget.tagName]: event.currentTarget.innerText,
-    });
-  };
-
-  const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const response = await addCategory(form);
+  const onSubmit: SubmitHandler<AddCategory> = async (data) => {
+    const response = await addCategory(data);
     if (response.data) {
+      reset();
       toast("دسته بندی با موفقیت اضافه شد", {
         style: {
           backgroundColor: "#a62626",
@@ -52,7 +42,7 @@ export const CategoryForm = () => {
     }
   };
   return (
-    <form onChange={formHandler} onSubmit={submitHandler}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <h3 className="mb-8 border-b-4 border-solid border-[#a62626] w-fit">
         دسته بندی
       </h3>
@@ -62,9 +52,8 @@ export const CategoryForm = () => {
       <input
         className="block w-[300px] border-solid border-slate-500 p-1.5 rounded-md mb-8"
         type="text"
-        name="name"
         id="name"
-        required
+        {...register("name", { required: "name is required" })}
       />
       <label className="block text-[1rem] mb-2.5" htmlFor="slug">
         اسلاگ
@@ -72,8 +61,8 @@ export const CategoryForm = () => {
       <input
         className="block w-[300px] border-solid border-slate-500 p-1.5 rounded-md mb-8 "
         type="text"
-        name="slug"
         id="slug"
+        {...register("slug", { required: "slug is required" })}
       />
       <label className="block text-[1rem] mb-2.5" htmlFor="icon">
         ایکون
@@ -81,9 +70,8 @@ export const CategoryForm = () => {
       <input
         className="block w-[300px] border-solid border-slate-500 p-1.5 rounded-md mb-8"
         type="text"
-        name="icon"
         id="icon"
-        required
+        {...register("icon", { required: "icon is required" })}
       />
       <button
         type="submit"

@@ -5,12 +5,10 @@ import {
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query";
 
-import { BASE_URL } from "@/config";
-
 import { getCookie, setCookie } from "@/utils/cookie";
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: BASE_URL,
+  baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
   prepareHeaders: (headers) => {
     const token = getCookie("accessToken");
     if (token) {
@@ -34,7 +32,7 @@ export const baseQueryWithReauth: BaseQueryFn<
     if (refreshToken) {
       const refreshResult = await baseQuery(
         {
-          url: `${BASE_URL}auth/check-refresh-token`,
+          url: `${process.env.NEXT_PUBLIC_BASE_URL}auth/check-refresh-token`,
           method: "POST",
           body: { refreshToken },
         },
@@ -43,7 +41,7 @@ export const baseQueryWithReauth: BaseQueryFn<
       );
 
       if (refreshResult.data) {
-        const { accessToken, refreshToken } = refreshResult.data as {
+        const { accessToken, refreshToken } = refreshResult!.data as {
           accessToken: string;
           refreshToken: string;
         };

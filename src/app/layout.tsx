@@ -2,10 +2,13 @@ import { Metadata } from "next";
 
 import React, { ReactNode } from "react";
 
-import { Header } from "@/layout/Header";
+import { Header } from "@/layout";
 import { ReduxProvider } from "@/layout/ReduxProvider";
 
+import { ToastContainer } from "react-toastify";
+
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: "Divar",
@@ -16,6 +19,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fa" dir="rtl">
       <body>
+        <ToastContainer position="top-center" style={{ zIndex: 9999 }} />
+
         <ReduxProvider>
           <Header />
           {children}
