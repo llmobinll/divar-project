@@ -4,20 +4,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { useState } from "react";
+import {  useContext, useState } from "react";
 import { BarLoader } from "react-spinners";
 
 import { AuthenticationModal } from "@/components/template/checkForm";
 
-import { getCookie } from "@/utils/cookie";
-
 import { useGetUserProfileQuery } from "@/services/auth";
 
+import { getCookie } from "@/utils/cookie";
+import { LoaderContext } from "@/utils/loaderProvider";
+
 export const Header = () => {
-  const [loader, setLoader] = useState(false);
-  const { push } = useRouter();
-  const { data, isLoading } = useGetUserProfileQuery();
+  const {loaders , setLoader} = useContext(LoaderContext)
   const [showModal, setShowModal] = useState(false);
+
+  const {push} = useRouter();
+
+  const { data, isLoading } = useGetUserProfileQuery();
+
+  const loadingButtonHandler = (key:string) => {
+    setLoader(key , !loaders[key])
+  }
+  
 
   const accessToken = getCookie("accessToken");
   const refreshToken = getCookie("refreshToken");
@@ -25,8 +33,8 @@ export const Header = () => {
   const buttonHandler = () => {
     if (data) {
       if (accessToken) {
-        setLoader(true);
         push("/dashboard");
+        loadingButtonHandler("دیوار من")
       }
     }
     if (!refreshToken) {
@@ -38,6 +46,9 @@ export const Header = () => {
     if (data) {
       if (accessToken) {
         push("/postPage");
+        loadingButtonHandler("ثبت اگهی")
+
+
       }
     }
 
@@ -68,7 +79,7 @@ export const Header = () => {
       </div>
       {isLoading && <BarLoader color="#c1240e" />}
       <div className="flex items-center justify-between gap-8 ml-4 text-gray-600">
-        <button onClick={buttonHandler}>
+        <button onClick={buttonHandler}   >
           <span className="flex items-center gap-2">
             <Image
               src="/images/profile.svg"
@@ -76,14 +87,14 @@ export const Header = () => {
               height={20}
               alt="profile"
             />
-            <p>دیوار من</p>
+            <p>{loaders["دیوار من"] ? "درحال بارگذاری..." : "دیوار من"}</p>
           </span>
         </button>
         <button
           onClick={AdButtonHandler}
-          className="bg-[#a62626] text-white h-10 w-20 leading-10 text-center rounded-md"
+          className="bg-[#a62626] text-white h-fit w-fit p-2 text-center rounded-md "
         >
-          <p>ثبت اگهی</p>
+          <p>{loaders["ثبت اگهی"] ? "درحال بارگذاری..." :  "ثبت اگهی"}</p>
         </button>
       </div>
       {showModal && (

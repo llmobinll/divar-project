@@ -1,5 +1,3 @@
-import React from "react";
-
 import { CategoryForm } from "@/components/template/categoryForm";
 import { ShowCategory } from "@/components/template/categoryForm/ShowCategory";
 

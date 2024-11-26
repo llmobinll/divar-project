@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 
-import React from "react";
-
 import { TiDeleteOutline } from "react-icons/ti";
 import { ColorRing } from "react-loader-spinner";
 import { toast } from "react-toastify";

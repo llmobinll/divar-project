@@ -3,8 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import React from "react";
-
 import { BiCategory } from "react-icons/bi";
 
 import { useGetCategoryQuery } from "@/services/category";

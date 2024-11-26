@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 import { toast } from "react-toastify";
 import { useForm, SubmitHandler } from "react-hook-form";
 

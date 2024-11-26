@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 
-import React from "react";
-
+import { useContext, useEffect } from "react";
 import { FaPhoneFlip } from "react-icons/fa6";
 import { LuCalendarClock } from "react-icons/lu";
 
@@ -11,8 +10,16 @@ import { GetPost } from "@/components/template/post/GetPost";
 
 import { useGetUserProfileQuery } from "@/services/auth";
 
+import { LoaderContext } from "@/utils/loaderProvider";
+
 export default function page() {
+  const { setLoader} = useContext(LoaderContext)
+
   const { data } = useGetUserProfileQuery();
+
+  useEffect(()=> {
+    setLoader("دیوار من" , false)
+  } , [])
 
   return (
     <div>
@@ -27,7 +34,7 @@ export default function page() {
       <div className="flex items-center gap-2">
         <LuCalendarClock className="w-5 h-5" />
         <p className="mb-3 text-lg">
-          تاریخ ورود :{new Date(data!.createdAt).toLocaleDateString("fa-IR")}
+          تاریخ ورود :{data && new Date(data.createdAt).toLocaleDateString("fa-IR")}
         </p>
       </div>
       {data?.role === "ADMIN" && (

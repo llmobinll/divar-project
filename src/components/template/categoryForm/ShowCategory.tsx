@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 
-import React from "react";
-
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 

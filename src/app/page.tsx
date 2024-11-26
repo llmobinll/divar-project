@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 import { SideBar } from "../components/homePage/SideBar";
 import { Main } from "../components/homePage/Main";
 
