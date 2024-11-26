@@ -27,7 +27,7 @@ export default function page() {
       <div className="flex items-center gap-2">
         <LuCalendarClock className="w-5 h-5" />
         <p className="mb-3 text-lg">
-          تاریخ ورود : {new Date(data?.createdAt).toLocaleDateString("fa-IR")}
+          تاریخ ورود :{new Date(data!.createdAt).toLocaleDateString("fa-IR")}
         </p>
       </div>
       {data?.role === "ADMIN" && (

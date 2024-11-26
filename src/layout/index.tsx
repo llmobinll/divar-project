@@ -1,11 +1,10 @@
-/* eslint-disable no-dupe-else-if */
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { BarLoader } from "react-spinners";
 
 import { AuthenticationModal } from "@/components/template/checkForm";
@@ -15,6 +14,7 @@ import { getCookie } from "@/utils/cookie";
 import { useGetUserProfileQuery } from "@/services/auth";
 
 export const Header = () => {
+  const [loader, setLoader] = useState(false);
   const { push } = useRouter();
   const { data, isLoading } = useGetUserProfileQuery();
   const [showModal, setShowModal] = useState(false);
@@ -25,6 +25,7 @@ export const Header = () => {
   const buttonHandler = () => {
     if (data) {
       if (accessToken) {
+        setLoader(true);
         push("/dashboard");
       }
     }
@@ -32,6 +33,7 @@ export const Header = () => {
       setShowModal(true);
     }
   };
+
   const AdButtonHandler = () => {
     if (data) {
       if (accessToken) {

@@ -17,5 +17,5 @@ export interface UserProfile {
   _id: string;
   mobile: string;
   role: string;
-  createdAt?: string;
+  createdAt: Date;
 }
